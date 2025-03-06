@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Finder</title>
+</head>
+<body>
+    <h1>Recipe Finder</h1>
+    <form action="/find_recipes" method="get">
+        <label for="ingredients">Ingredients (comma-separated):</label>
+        <input type="text" id="ingredients" name="ingredients">
+        <label for="min_calories">Min Calories:</label>
+        <input type="number" id="min_calories" name="min_calories" min="0">
+        <label for="max_calories">Max Calories:</label>
+        <input type="number" id="max_calories" name="max_calories" min="0">
+        <label for="min_protein">Min Protein (g):</label>
+        <input type="number" id="min_protein" name="min_protein" min="0">
+        <label for="max_protein">Max Protein (g):</label>
+        <input type="number" id="max_protein" name="max_protein" min="0">
+        <label for="min_carbs">Min Carbs (g):</label>
+        <input type="number" id="min_carbs" name="min_carbs" min="0">
+        <label for="max_carbs">Max Carbs (g):</label>
+        <input type="number" id="max_carbs" name="max_carbs" min="0">
+        <label for="min_fat">Min Fat (g):</label>
+        <input type="number" id="min_fat" name="min_fat" min="0">
+        <label for="max_fat">Max Fat (g):</label>
+        <input type="number" id="max_fat" name="max_fat" min="0">
+        <button type="submit">Find Recipes</button>
+    </form>
+
+    <h2>Classify Recipe Type</h2>
+    <form action="/classify_recipe" method="post">
+        <label for="recipe_id">Recipe ID:</label>
+        <input type="text" id="recipe_id" name="recipe_id">
+        <button type="submit">Classify Recipe</button>
+    </form>
+
+    <h2>Generate Meal Plan</h2>
+    <form action="/generate_meal_plan" method="post">
+        <button type="submit">Generate Meal Plan</button>
+    </form>
+
+    <h2>Generate Shopping List</h2>
+    <form action="/generate_shopping_list" method="post">
+        <button type="submit">Generate Shopping List</button>
+    </form>
+
+    {% if posts %}
+        <h2>Recipes</h2>
+        <ul>
+            {% for post in posts %}
+                <li>{{ post.get('title', 'No title available') }} - Difficulty: {{ post.get('difficulty', 'Unknown') }}</li>
+                <img src="{{ post.get('image', '') }}" alt="{{ post.get('title', 'No title available') }}" width="200">
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if recipe_type %}
+        <h2>Recipe Type</h2>
+        <p>Type: {{ recipe_type }}</p>
+    {% endif %}
+
+    {% if meal_plan %}
+        <h2>Meal Plan</h2>
+        <ul>
+            {% for meal in meal_plan %}
+                <li>{{ meal.title }} - Meal: {{ meal.meal }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if shopping_list %}
+        <h2>Shopping List</h2>
+        <ul>
+            {% for item in shopping_list %}
+                <li>{{ item.item }} - Quantity: {{ item.quantity }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if error %}
+        <p>Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
